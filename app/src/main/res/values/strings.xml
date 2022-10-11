@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">PavelWeatherApp</string>
+    <string name="label_weather_search">Поиск погоды</string>
+    <string name="hint_input_location">Введите название города или индекс</string>
+    <string name="btn_show_weather">Показать погоду</string>
+    <string name="btn_show_locations">Мои локации</string>
+    <string name="btn_show_history">Моя история</string>
+    <string name="label_weather_in_location">Погода в городе</string>
+    <string name="btn_save_location">Сохранить</string>
+    <string name="btn_go_to_main">Назад</string>
+</resources>
