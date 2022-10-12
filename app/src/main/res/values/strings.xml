@@ -9,4 +9,5 @@
     <string name="btn_save_location">Сохранить локацию</string>
     <string name="btn_go_to_main">На главный экран</string>
     <string name="btn_save_result">Сохранить результат</string>
+    <string name="label_choose_location">Выберите локацию</string>
 </resources>

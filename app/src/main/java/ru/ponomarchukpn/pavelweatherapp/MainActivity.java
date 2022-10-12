@@ -59,6 +59,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        btnShowLocations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ShowLocationsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private class DownloadTask extends AsyncTask<String, Void, String> {
