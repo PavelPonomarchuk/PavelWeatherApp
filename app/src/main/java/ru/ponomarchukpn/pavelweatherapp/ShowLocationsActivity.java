@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -41,6 +42,13 @@ public class ShowLocationsActivity extends AppCompatActivity {
         LocationsAdapter adapter = new LocationsAdapter(locations);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+        adapter.setOnLocationClickListener(new LocationsAdapter.OnLocationClickListener() {
+            @Override
+            public void onLocationClick(int position) {
+                //to test items' interactivity
+                Toast.makeText(ShowLocationsActivity.this, locations.get(position).getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         btnGoToMain.setOnClickListener(new View.OnClickListener() {
             @Override

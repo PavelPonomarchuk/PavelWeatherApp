@@ -12,9 +12,18 @@ import java.util.ArrayList;
 
 public class LocationsAdapter extends RecyclerView.Adapter<LocationsAdapter.LocationsViewHolder> {
     private ArrayList<Location> locations;
+    private OnLocationClickListener onLocationClickListener;
 
     public LocationsAdapter(ArrayList<Location> locations) {
         this.locations = locations;
+    }
+
+    interface OnLocationClickListener {
+        void onLocationClick(int position);
+    }
+
+    public void setOnLocationClickListener(OnLocationClickListener onLocationClickListener) {
+        this.onLocationClickListener = onLocationClickListener;
     }
 
     @NonNull
@@ -40,6 +49,14 @@ public class LocationsAdapter extends RecyclerView.Adapter<LocationsAdapter.Loca
         public LocationsViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewLocationName = itemView.findViewById(R.id.textViewLocationName);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onLocationClickListener != null){
+                        onLocationClickListener.onLocationClick(getAdapterPosition());
+                    }
+                }
+            });
         }
     }
 }
