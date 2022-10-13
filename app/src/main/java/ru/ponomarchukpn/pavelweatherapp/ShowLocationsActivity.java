@@ -4,12 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
 public class ShowLocationsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
+    private Button btnGoToMain;
 
     private ArrayList<Location> locations = new ArrayList<>();
 
@@ -18,6 +22,7 @@ public class ShowLocationsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_locations);
         recyclerView = findViewById(R.id.recyclerViewLocations);
+        btnGoToMain = findViewById(R.id.buttonFromLocationsToMain);
 
         //test data
         locations.add(new Location("Троицк"));
@@ -36,5 +41,13 @@ public class ShowLocationsActivity extends AppCompatActivity {
         LocationsAdapter adapter = new LocationsAdapter(locations);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+
+        btnGoToMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ShowLocationsActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
