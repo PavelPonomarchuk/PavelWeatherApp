@@ -1,6 +1,8 @@
 package ru.ponomarchukpn.pavelweatherapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +19,7 @@ public class ShowLocationsActivity extends AppCompatActivity {
     private Button btnGoToMain;
 
     private ArrayList<Location> locations = new ArrayList<>();
+    private LocationsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,7 @@ public class ShowLocationsActivity extends AppCompatActivity {
         locations.add(new Location("Миасс"));
         //end
 
-        LocationsAdapter adapter = new LocationsAdapter(locations);
+        adapter = new LocationsAdapter(locations);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         adapter.setOnLocationClickListener(new LocationsAdapter.OnLocationClickListener() {
@@ -57,5 +60,23 @@ public class ShowLocationsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                removeFromRecyclerView(viewHolder.getAdapterPosition());
+            }
+        });
+        helper.attachToRecyclerView(recyclerView);
+    }
+
+    private void removeFromRecyclerView(int position){
+        locations.remove(position);
+        adapter.notifyDataSetChanged();
     }
 }
