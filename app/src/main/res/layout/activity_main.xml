@@ -33,7 +33,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
-        android:background="@color/material_dynamic_neutral95"
+        android:background="@drawable/edit_text_rounded_corners"
         android:ems="10"
         android:hint="@string/hint_input_location"
         android:inputType="text"
