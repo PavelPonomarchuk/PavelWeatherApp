@@ -3,6 +3,8 @@ package ru.ponomarchukpn.pavelweatherapp.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,6 +58,10 @@ public class DownloadTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
+        if (s == null) {
+            Toast.makeText(context, "Ошибка при получении данных", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (!s.equals("")) {
             try {
                 JSONObject response = new JSONObject(s);
