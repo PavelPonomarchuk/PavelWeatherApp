@@ -14,11 +14,14 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import ru.ponomarchukpn.pavelweatherapp.utils.DownloadTask;
+import ru.ponomarchukpn.pavelweatherapp.utils.DownloadTaskBuilder;
+
 public class ShowLocationsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Button btnGoToMain;
 
-    private ArrayList<Location> locations = new ArrayList<>();
+    private final ArrayList<Location> locations = new ArrayList<>();
     private LocationsAdapter adapter;
 
     @Override
@@ -48,8 +51,12 @@ public class ShowLocationsActivity extends AppCompatActivity {
         adapter.setOnLocationClickListener(new LocationsAdapter.OnLocationClickListener() {
             @Override
             public void onLocationClick(int position) {
-                //to test items' interactivity
-                Toast.makeText(ShowLocationsActivity.this, locations.get(position).getName(), Toast.LENGTH_SHORT).show();
+                String location = locations.get(position).getName();
+                if (!location.equals("")) {
+                    DownloadTask task = new DownloadTask(ShowLocationsActivity.this);
+                    DownloadTaskBuilder builder = new DownloadTaskBuilder(ShowLocationsActivity.this);
+                    task.execute(builder.build(location));
+                }
             }
         });
 
