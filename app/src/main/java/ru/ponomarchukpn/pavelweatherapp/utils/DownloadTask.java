@@ -3,7 +3,6 @@ package ru.ponomarchukpn.pavelweatherapp.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -17,6 +16,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import ru.ponomarchukpn.pavelweatherapp.R;
 import ru.ponomarchukpn.pavelweatherapp.ShowWeatherActivity;
 
 public class DownloadTask extends AsyncTask<String, Void, String> {
@@ -29,7 +29,7 @@ public class DownloadTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        URL url = null;
+        URL url;
         HttpURLConnection urlConnection = null;
         StringBuilder builder = new StringBuilder();
         String result = null;
@@ -59,7 +59,7 @@ public class DownloadTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         if (s == null) {
-            Toast.makeText(context, "Ошибка при получении данных", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.error_while_getting_data, Toast.LENGTH_SHORT).show();
             return;
         }
         if (!s.equals("")) {

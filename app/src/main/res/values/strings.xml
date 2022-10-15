@@ -11,4 +11,7 @@
     <string name="btn_save_result">Сохранить результат</string>
     <string name="label_choose_location">Выберите локацию</string>
     <string name="description_go_to_main">Вернуться на главный экран</string>
+    <string name="error_while_getting_data">Ошибка при получении данных</string>
+    <string name="toast_location_saved">Локация сохранена</string>
+    <string name="toast_location_already_exists">Локация уже существует</string>
 </resources>
