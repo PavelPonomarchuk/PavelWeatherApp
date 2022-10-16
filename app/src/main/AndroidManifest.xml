@@ -15,6 +15,13 @@
         android:theme="@style/Theme.PavelWeatherApp"
         tools:targetApi="31">
         <activity
+            android:name=".ShowHistoryActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ShowLocationsActivity"
             android:exported="false">
             <meta-data

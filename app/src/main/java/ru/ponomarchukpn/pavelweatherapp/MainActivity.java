@@ -58,5 +58,10 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, ShowLocationsActivity.class);
             startActivity(intent);
         });
+
+        btnShowHistory.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, ShowHistoryActivity.class);
+            startActivity(intent);
+        });
     }
 }
