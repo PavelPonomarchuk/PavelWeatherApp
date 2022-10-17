@@ -27,7 +27,7 @@ public class WeatherDataAdapter extends RecyclerView.Adapter<WeatherDataAdapter.
     @Override
     public void onBindViewHolder(@NonNull HistoryViewHolder holder, int position) {
         WeatherData data = weatherDataList.get(position);
-        String text = "Город: " + data.getLocation() + " " + data.getDate().toString() + "\n" +
+        String text = "Город: " + data.getLocation() + "\n" + data.getDate() + "\n" +
                 "Температура: " + data.getTemperature() + "\n" +
                 "Скорость ветра: " + data.getWindSpeed() + "\n" + data.getDescription();
         holder.textViewWeatherItem.setText(text);
@@ -44,7 +44,6 @@ public class WeatherDataAdapter extends RecyclerView.Adapter<WeatherDataAdapter.
         public HistoryViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewWeatherItem = itemView.findViewById(R.id.textViewWeatherItem);
-            //зачем? )))
         }
     }
 }

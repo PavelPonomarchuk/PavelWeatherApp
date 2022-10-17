@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class LocationsAdapter extends RecyclerView.Adapter<LocationsAdapter.LocationsViewHolder> {
-    private ArrayList<Location> locations;
+    private final ArrayList<Location> locations;
     private OnLocationClickListener onLocationClickListener;
 
     public LocationsAdapter(ArrayList<Location> locations) {
@@ -44,17 +44,14 @@ public class LocationsAdapter extends RecyclerView.Adapter<LocationsAdapter.Loca
     }
 
     class LocationsViewHolder extends RecyclerView.ViewHolder {
-        private TextView textViewLocationName;
+        private final TextView textViewLocationName;
 
         public LocationsViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewLocationName = itemView.findViewById(R.id.textViewLocationName);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (onLocationClickListener != null){
-                        onLocationClickListener.onLocationClick(getAdapterPosition());
-                    }
+            itemView.setOnClickListener(view -> {
+                if (onLocationClickListener != null){
+                    onLocationClickListener.onLocationClick(getAdapterPosition());
                 }
             });
         }
