@@ -1,10 +1,12 @@
-package ru.ponomarchukpn.pavelweatherapp.utils;
+package ru.ponomarchukpn.pavelweatherapp.unused;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import ru.ponomarchukpn.pavelweatherapp.unused.WeatherContract;
 
 public class WeatherDataDBHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "weather.db";

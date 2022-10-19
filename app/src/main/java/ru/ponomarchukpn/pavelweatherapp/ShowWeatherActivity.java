@@ -7,38 +7,36 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import ru.ponomarchukpn.pavelweatherapp.utils.LocationsDatabase;
-import ru.ponomarchukpn.pavelweatherapp.utils.WeatherDataDatabase;
+import ru.ponomarchukpn.pavelweatherapp.utils.LocationsViewModel;
+import ru.ponomarchukpn.pavelweatherapp.utils.WeatherDataViewModel;
 
 public class ShowWeatherActivity extends AppCompatActivity {
 
-    private TextView textViewWeatherInfo;
-    private TextView textViewLocation;
-    private Button btnGoBack;
-    private Button btnSaveLocation;
-    private Button btnSaveResult;
     private String locationName;
     private String temp;
     private String wind;
     private String description;
     private String date;
 
-    private LocationsDatabase locationsDatabase;
-    private WeatherDataDatabase weatherDataDatabase;
+    private LocationsViewModel locationsViewModel;
+    private WeatherDataViewModel weatherDataViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_weather);
-        textViewWeatherInfo = findViewById(R.id.textViewWeatherInfo);
-        textViewLocation = findViewById(R.id.textViewLocation);
-        btnGoBack = findViewById(R.id.buttonGoBack);
-        btnSaveLocation = findViewById(R.id.buttonSaveLocation);
-        btnSaveResult = findViewById(R.id.buttonSaveResult);
+        TextView textViewWeatherInfo = findViewById(R.id.textViewWeatherInfo);
+        TextView textViewLocation = findViewById(R.id.textViewLocation);
+        Button btnGoBack = findViewById(R.id.buttonGoBack);
+        Button btnSaveLocation = findViewById(R.id.buttonSaveLocation);
+        Button btnSaveResult = findViewById(R.id.buttonSaveResult);
 
         Intent intent = getIntent();
         locationName = intent.getStringExtra("name");
@@ -53,8 +51,16 @@ public class ShowWeatherActivity extends AppCompatActivity {
         textViewLocation.setText(locationName);
         textViewWeatherInfo.setText(weatherInfo);
 
-        locationsDatabase = LocationsDatabase.getInstance(this);
-        weatherDataDatabase = WeatherDataDatabase.getInstance(this);
+        locationsViewModel = new ViewModelProvider(this).get(LocationsViewModel.class);
+        weatherDataViewModel = new ViewModelProvider(this).get(WeatherDataViewModel.class);
+
+        Location location = new Location(locationName);
+        LiveData<List<Location>> locations = locationsViewModel.getLocations();
+        List<Location> locationsList = new ArrayList<>();
+        locations.observe(this, locationsFromLiveData -> {
+            locationsList.clear();
+            locationsList.addAll(locationsFromLiveData);
+        });
 
         btnGoBack.setOnClickListener(view -> {
             Intent intentBack = new Intent(ShowWeatherActivity.this, MainActivity.class);
@@ -62,10 +68,8 @@ public class ShowWeatherActivity extends AppCompatActivity {
         });
 
         btnSaveLocation.setOnClickListener(view -> {
-            List<Location> currentLocations = locationsDatabase.locationsDao().getAllLocations();
-            Location location = new Location(locationName);
-            if (!currentLocations.contains(location)) {
-                locationsDatabase.locationsDao().insertLocation(location);
+            if (!locationsList.contains(location)) {
+                locationsViewModel.insertLocation(location);
                 Toast.makeText(ShowWeatherActivity.this, R.string.toast_location_saved, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(ShowWeatherActivity.this, R.string.toast_location_already_exists, Toast.LENGTH_SHORT).show();
@@ -73,8 +77,8 @@ public class ShowWeatherActivity extends AppCompatActivity {
         });
 
         btnSaveResult.setOnClickListener(view -> {
-            WeatherData weatherData = new WeatherData(locationName, date,temp, wind, description);
-            weatherDataDatabase.weatherDataDao().insertWeatherData(weatherData);
+            WeatherData weatherData = new WeatherData(locationName, date, temp, wind, description);
+            weatherDataViewModel.insertWeatherData(weatherData);
             Toast.makeText(ShowWeatherActivity.this, R.string.toast_result_has_saved, Toast.LENGTH_SHORT).show();
         });
     }

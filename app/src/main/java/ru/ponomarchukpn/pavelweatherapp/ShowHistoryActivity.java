@@ -1,11 +1,14 @@
 package ru.ponomarchukpn.pavelweatherapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,22 +16,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.ponomarchukpn.pavelweatherapp.utils.WeatherDataDatabase;
+import ru.ponomarchukpn.pavelweatherapp.utils.WeatherDataViewModel;
 
 public class ShowHistoryActivity extends AppCompatActivity {
     private final ArrayList<WeatherData> weatherDataList = new ArrayList<>();
-    private RecyclerView recyclerViewHistory;
-    private Button btnGoToMain;
-    private WeatherDataDatabase weatherDataDatabase;
+    private WeatherDataViewModel weatherDataViewModel;
     private WeatherDataAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_history);
-        recyclerViewHistory = findViewById(R.id.recyclerViewHistory);
-        btnGoToMain = findViewById(R.id.buttonToMainFromHistory);
-        weatherDataDatabase = WeatherDataDatabase.getInstance(this);
+        RecyclerView recyclerViewHistory = findViewById(R.id.recyclerViewHistory);
+        Button btnGoToMain = findViewById(R.id.buttonToMainFromHistory);
+        weatherDataViewModel = new ViewModelProvider(this).get(WeatherDataViewModel.class);
         getData();
 
         adapter = new WeatherDataAdapter(weatherDataList);
@@ -56,14 +57,16 @@ public class ShowHistoryActivity extends AppCompatActivity {
 
     private void removeFromRecyclerView(int position) {
         WeatherData weatherData = weatherDataList.get(position);
-        weatherDataDatabase.weatherDataDao().deleteWeatherData(weatherData);
-        getData();
-        adapter.notifyDataSetChanged();
+        weatherDataViewModel.deleteWeatherData(weatherData);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void getData() {
-        List<WeatherData> dataFromDB = weatherDataDatabase.weatherDataDao().detAllWeatherData();
-        weatherDataList.clear();
-        weatherDataList.addAll(dataFromDB);
+        LiveData<List<WeatherData>> dataFromDB = weatherDataViewModel.getWeatherData();
+        dataFromDB.observe(this, weatherData -> {
+            weatherDataList.clear();
+            weatherDataList.addAll(weatherData);
+            adapter.notifyDataSetChanged();
+        });
     }
 }

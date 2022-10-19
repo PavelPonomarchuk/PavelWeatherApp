@@ -13,18 +13,15 @@ import ru.ponomarchukpn.pavelweatherapp.utils.DownloadTaskBuilder;
 public class MainActivity extends AppCompatActivity {
 
     private EditText editTextLocation;
-    private Button btnShowWeather;
-    private Button btnShowLocations;
-    private Button btnShowHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         editTextLocation = findViewById(R.id.editTextInputLocation);
-        btnShowWeather = findViewById(R.id.buttonShowWeather);
-        btnShowLocations = findViewById(R.id.buttonShowLocations);
-        btnShowHistory = findViewById(R.id.buttonShowHistory);
+        Button btnShowWeather = findViewById(R.id.buttonShowWeather);
+        Button btnShowLocations = findViewById(R.id.buttonShowLocations);
+        Button btnShowHistory = findViewById(R.id.buttonShowHistory);
 
         btnShowWeather.setOnClickListener(view -> {
             String location = editTextLocation.getText().toString().trim();

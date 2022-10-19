@@ -1,4 +1,4 @@
-package ru.ponomarchukpn.pavelweatherapp.utils;
+package ru.ponomarchukpn.pavelweatherapp.unused;
 
 import android.provider.BaseColumns;
 

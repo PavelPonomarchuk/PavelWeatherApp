@@ -1,11 +1,14 @@
 package ru.ponomarchukpn.pavelweatherapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,25 +18,22 @@ import java.util.List;
 
 import ru.ponomarchukpn.pavelweatherapp.utils.DownloadTask;
 import ru.ponomarchukpn.pavelweatherapp.utils.DownloadTaskBuilder;
-import ru.ponomarchukpn.pavelweatherapp.utils.LocationsDatabase;
-import ru.ponomarchukpn.pavelweatherapp.utils.WeatherContract;
+import ru.ponomarchukpn.pavelweatherapp.utils.LocationsViewModel;
 
 public class ShowLocationsActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private Button btnGoToMain;
 
     private final ArrayList<Location> locations = new ArrayList<>();
     private LocationsAdapter adapter;
-    private LocationsDatabase database;
+    private LocationsViewModel locationsViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_locations);
-        recyclerView = findViewById(R.id.recyclerViewLocations);
-        btnGoToMain = findViewById(R.id.buttonFromLocationsToMain);
+        RecyclerView recyclerView = findViewById(R.id.recyclerViewLocations);
+        Button btnGoToMain = findViewById(R.id.buttonFromLocationsToMain);
 
-        database = LocationsDatabase.getInstance(this);
+        locationsViewModel = new ViewModelProvider(this).get(LocationsViewModel.class);
         getData();
 
         adapter = new LocationsAdapter(locations);
@@ -69,14 +69,16 @@ public class ShowLocationsActivity extends AppCompatActivity {
 
     private void removeFromRecyclerView(int position){
         Location location = locations.get(position);
-        database.locationsDao().deleteLocation(location);
-        getData();
-        adapter.notifyDataSetChanged();
+        locationsViewModel.deleteLocation(location);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void getData(){
-        List<Location> locationsFromDB = database.locationsDao().getAllLocations();
-        locations.clear();
-        locations.addAll(locationsFromDB);
+        LiveData<List<Location>> locationsFromDB = locationsViewModel.getLocations();
+        locationsFromDB.observe(this, locationsFromLiveData -> {
+            locations.clear();
+            locations.addAll(locationsFromLiveData);
+            adapter.notifyDataSetChanged();
+        });
     }
 }

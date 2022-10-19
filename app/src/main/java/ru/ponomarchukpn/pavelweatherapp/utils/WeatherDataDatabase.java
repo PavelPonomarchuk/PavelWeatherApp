@@ -17,9 +17,7 @@ public abstract class WeatherDataDatabase extends RoomDatabase {
     public static WeatherDataDatabase getInstance(Context context) {
         synchronized (LOCK) {
             if (database == null) {
-                //TODO запретить запросы в главном потоке
                 database = Room.databaseBuilder(context.getApplicationContext(), WeatherDataDatabase.class, DB_NAME)
-                        .allowMainThreadQueries()
                         .build();
             }
         }

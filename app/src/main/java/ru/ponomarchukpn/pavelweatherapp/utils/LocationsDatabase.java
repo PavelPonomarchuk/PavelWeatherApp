@@ -17,10 +17,7 @@ public abstract class LocationsDatabase extends RoomDatabase {
     public static LocationsDatabase getInstance(Context context) {
         synchronized (LOCK) {
             if (database == null) {
-                //TODO убрать разрешение на запросы в главном потоке!
-                //еще какой контекст нужен
                 database = Room.databaseBuilder(context.getApplicationContext(), LocationsDatabase.class, DB_NAME)
-                        .allowMainThreadQueries()
                         .build();
             }
             return database;

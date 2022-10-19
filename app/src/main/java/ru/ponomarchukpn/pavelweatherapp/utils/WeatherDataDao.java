@@ -1,5 +1,6 @@
 package ru.ponomarchukpn.pavelweatherapp.utils;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -12,7 +13,7 @@ import ru.ponomarchukpn.pavelweatherapp.WeatherData;
 @Dao
 public interface WeatherDataDao {
     @Query("SELECT * FROM weather_data")
-    List<WeatherData> detAllWeatherData();
+    LiveData<List<WeatherData>> getAllWeatherData();
 
     @Insert
     void insertWeatherData(WeatherData weatherData);

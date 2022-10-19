@@ -1,5 +1,6 @@
 package ru.ponomarchukpn.pavelweatherapp.utils;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -12,7 +13,7 @@ import ru.ponomarchukpn.pavelweatherapp.Location;
 @Dao
 public interface LocationsDao {
     @Query("SELECT * FROM locations")
-    List<Location> getAllLocations();
+    LiveData<List<Location>> getAllLocations();
 
     @Insert
     void insertLocation(Location location);
