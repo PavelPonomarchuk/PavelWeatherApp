@@ -1,9 +1,6 @@
 package ru.ponomarchukpn.pavelweatherapp;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -14,10 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ru.ponomarchukpn.pavelweatherapp.utils.DownloadTask;
 import ru.ponomarchukpn.pavelweatherapp.utils.DownloadTaskBuilder;
-import ru.ponomarchukpn.pavelweatherapp.utils.LocationsDBHelper;
+import ru.ponomarchukpn.pavelweatherapp.utils.LocationsDatabase;
 import ru.ponomarchukpn.pavelweatherapp.utils.WeatherContract;
 
 public class ShowLocationsActivity extends AppCompatActivity {
@@ -26,8 +24,7 @@ public class ShowLocationsActivity extends AppCompatActivity {
 
     private final ArrayList<Location> locations = new ArrayList<>();
     private LocationsAdapter adapter;
-    LocationsDBHelper dbHelper;
-    SQLiteDatabase db;
+    private LocationsDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +33,7 @@ public class ShowLocationsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewLocations);
         btnGoToMain = findViewById(R.id.buttonFromLocationsToMain);
 
-        dbHelper = new LocationsDBHelper(ShowLocationsActivity.this);
-        db = dbHelper.getReadableDatabase();
+        database = LocationsDatabase.getInstance(this);
         getData();
 
         adapter = new LocationsAdapter(locations);
@@ -72,22 +68,15 @@ public class ShowLocationsActivity extends AppCompatActivity {
     }
 
     private void removeFromRecyclerView(int position){
-        int id = locations.get(position).getId();
-        String where = WeatherContract.LocationsEntry._ID + " = ?";
-        String[] whereArgs = new String[] {Integer.toString(id)};
-        db.delete(WeatherContract.LocationsEntry.TABLE_NAME, where, whereArgs);
+        Location location = locations.get(position);
+        database.locationsDao().deleteLocation(location);
         getData();
         adapter.notifyDataSetChanged();
     }
 
     private void getData(){
+        List<Location> locationsFromDB = database.locationsDao().getAllLocations();
         locations.clear();
-        Cursor cursor = db.query(WeatherContract.LocationsEntry.TABLE_NAME, null, null, null, null, null, null);
-        while(cursor.moveToNext()){
-            @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex(WeatherContract.LocationsEntry._ID));
-            @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex(WeatherContract.LocationsEntry.COLUMN_NAME));
-            locations.add(new Location(id, name));
-        }
-        cursor.close();
+        locations.addAll(locationsFromDB);
     }
 }
