@@ -1,10 +1,7 @@
 package ru.ponomarchukpn.pavelweatherapp;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,8 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 import ru.ponomarchukpn.pavelweatherapp.utils.LocationsDatabase;
-import ru.ponomarchukpn.pavelweatherapp.utils.WeatherContract;
-import ru.ponomarchukpn.pavelweatherapp.utils.WeatherDataDBHelper;
+import ru.ponomarchukpn.pavelweatherapp.utils.WeatherDataDatabase;
 
 public class ShowWeatherActivity extends AppCompatActivity {
 
@@ -31,9 +27,8 @@ public class ShowWeatherActivity extends AppCompatActivity {
     private String description;
     private String date;
 
-    private WeatherDataDBHelper weatherDBHelper;
-
-    private LocationsDatabase database;
+    private LocationsDatabase locationsDatabase;
+    private WeatherDataDatabase weatherDataDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +53,8 @@ public class ShowWeatherActivity extends AppCompatActivity {
         textViewLocation.setText(locationName);
         textViewWeatherInfo.setText(weatherInfo);
 
-        weatherDBHelper = new WeatherDataDBHelper(this);
-        SQLiteDatabase dbWeather = weatherDBHelper.getWritableDatabase();
-
-        database = LocationsDatabase.getInstance(this);
+        locationsDatabase = LocationsDatabase.getInstance(this);
+        weatherDataDatabase = WeatherDataDatabase.getInstance(this);
 
         btnGoBack.setOnClickListener(view -> {
             Intent intentBack = new Intent(ShowWeatherActivity.this, MainActivity.class);
@@ -69,28 +62,20 @@ public class ShowWeatherActivity extends AppCompatActivity {
         });
 
         btnSaveLocation.setOnClickListener(view -> {
-            List<Location> currentLocations = database.locationsDao().getAllLocations();
+            List<Location> currentLocations = locationsDatabase.locationsDao().getAllLocations();
             Location location = new Location(locationName);
             if (!currentLocations.contains(location)) {
-                database.locationsDao().insertLocation(location);
+                locationsDatabase.locationsDao().insertLocation(location);
                 Toast.makeText(ShowWeatherActivity.this, R.string.toast_location_saved, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(ShowWeatherActivity.this, R.string.toast_location_already_exists, Toast.LENGTH_SHORT).show();
             }
         });
 
-        btnSaveResult.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ContentValues values = new ContentValues();
-                values.put(WeatherContract.WeatherDataEntry.COLUMN_LOCATION, locationName);
-                values.put(WeatherContract.WeatherDataEntry.COLUMN_DATE, date);
-                values.put(WeatherContract.WeatherDataEntry.COLUMN_TEMPERATURE, temp);
-                values.put(WeatherContract.WeatherDataEntry.COLUMN_WIND_SPEED, wind);
-                values.put(WeatherContract.WeatherDataEntry.COLUMN_DESCRIPTION, description);
-                dbWeather.insert(WeatherContract.WeatherDataEntry.TABLE_NAME, null, values);
-                Toast.makeText(ShowWeatherActivity.this, R.string.toast_result_has_saved, Toast.LENGTH_SHORT).show();
-            }
+        btnSaveResult.setOnClickListener(view -> {
+            WeatherData weatherData = new WeatherData(locationName, date,temp, wind, description);
+            weatherDataDatabase.weatherDataDao().insertWeatherData(weatherData);
+            Toast.makeText(ShowWeatherActivity.this, R.string.toast_result_has_saved, Toast.LENGTH_SHORT).show();
         });
     }
 }
