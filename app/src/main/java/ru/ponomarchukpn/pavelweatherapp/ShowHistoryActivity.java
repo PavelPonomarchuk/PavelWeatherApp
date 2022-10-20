@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.ponomarchukpn.pavelweatherapp.utils.WeatherDataViewModel;
+import ru.ponomarchukpn.pavelweatherapp.data.WeatherDataViewModel;
 
 public class ShowHistoryActivity extends AppCompatActivity {
     private final ArrayList<WeatherData> weatherDataList = new ArrayList<>();

@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import ru.ponomarchukpn.pavelweatherapp.utils.LocationsViewModel;
-import ru.ponomarchukpn.pavelweatherapp.utils.WeatherDataViewModel;
+import ru.ponomarchukpn.pavelweatherapp.data.LocationsViewModel;
+import ru.ponomarchukpn.pavelweatherapp.data.WeatherDataViewModel;
 
 public class ShowWeatherActivity extends AppCompatActivity {
 

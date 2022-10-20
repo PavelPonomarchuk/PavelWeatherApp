@@ -1,4 +1,4 @@
-package ru.ponomarchukpn.pavelweatherapp.utils;
+package ru.ponomarchukpn.pavelweatherapp.data;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

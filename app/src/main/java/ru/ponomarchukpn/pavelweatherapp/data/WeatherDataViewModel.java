@@ -1,4 +1,4 @@
-package ru.ponomarchukpn.pavelweatherapp.utils;
+package ru.ponomarchukpn.pavelweatherapp.data;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 import ru.ponomarchukpn.pavelweatherapp.WeatherData;
+import ru.ponomarchukpn.pavelweatherapp.data.WeatherDataDatabase;
 
 public class WeatherDataViewModel extends AndroidViewModel {
     private static WeatherDataDatabase database;

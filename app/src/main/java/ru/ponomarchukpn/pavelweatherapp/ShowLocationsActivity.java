@@ -18,7 +18,7 @@ import java.util.List;
 
 import ru.ponomarchukpn.pavelweatherapp.utils.DownloadTask;
 import ru.ponomarchukpn.pavelweatherapp.utils.DownloadTaskBuilder;
-import ru.ponomarchukpn.pavelweatherapp.utils.LocationsViewModel;
+import ru.ponomarchukpn.pavelweatherapp.data.LocationsViewModel;
 
 public class ShowLocationsActivity extends AppCompatActivity {
 
