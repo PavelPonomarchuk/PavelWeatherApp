@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import ru.ponomarchukpn.pavelweatherapp.WeatherData;
+import ru.ponomarchukpn.pavelweatherapp.pojo.WeatherData;
 
 @Database(entities = {WeatherData.class}, version = 1, exportSchema = false)
 public abstract class WeatherDataDatabase extends RoomDatabase {

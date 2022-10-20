@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import ru.ponomarchukpn.pavelweatherapp.pojo.WeatherData;
+
 public class WeatherDataAdapter extends RecyclerView.Adapter<WeatherDataAdapter.HistoryViewHolder> {
     private final ArrayList<WeatherData> weatherDataList;
 

@@ -8,7 +8,7 @@ import androidx.room.Query;
 
 import java.util.List;
 
-import ru.ponomarchukpn.pavelweatherapp.Location;
+import ru.ponomarchukpn.pavelweatherapp.pojo.Location;
 
 @Dao
 public interface LocationsDao {

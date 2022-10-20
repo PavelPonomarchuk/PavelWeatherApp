@@ -9,8 +9,7 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import ru.ponomarchukpn.pavelweatherapp.Location;
-import ru.ponomarchukpn.pavelweatherapp.data.LocationsDatabase;
+import ru.ponomarchukpn.pavelweatherapp.pojo.Location;
 
 public class LocationsViewModel extends AndroidViewModel {
     public static LocationsDatabase locationsDatabase;

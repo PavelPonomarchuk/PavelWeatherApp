@@ -11,11 +11,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import ru.ponomarchukpn.pavelweatherapp.data.LocationsViewModel;
 import ru.ponomarchukpn.pavelweatherapp.data.WeatherDataViewModel;
+import ru.ponomarchukpn.pavelweatherapp.pojo.Location;
+import ru.ponomarchukpn.pavelweatherapp.pojo.WeatherData;
 
 public class ShowWeatherActivity extends AppCompatActivity {
 
@@ -39,11 +40,11 @@ public class ShowWeatherActivity extends AppCompatActivity {
         Button btnSaveResult = findViewById(R.id.buttonSaveResult);
 
         Intent intent = getIntent();
-        locationName = intent.getStringExtra("name");
-        temp = intent.getStringExtra("temp");
-        wind = intent.getStringExtra("windStr");
+        locationName = intent.getStringExtra("location");
+        temp = intent.getStringExtra("temperature");
+        wind = intent.getStringExtra("windSpeed");
         description = intent.getStringExtra("description");
-        date = new Date().toString();
+        date = intent.getStringExtra("date");
         String weatherInfo = "Температура воздуха: " + temp + "\n"
                 + "Скорость ветра: " + wind + " м/с\n"
                 + description;

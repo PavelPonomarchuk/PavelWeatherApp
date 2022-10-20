@@ -1,4 +1,4 @@
-package ru.ponomarchukpn.pavelweatherapp.utils;
+package ru.ponomarchukpn.pavelweatherapp.unused;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +21,7 @@ import ru.ponomarchukpn.pavelweatherapp.ShowWeatherActivity;
 
 public class DownloadTask extends AsyncTask<String, Void, String> {
     Context context;
-    //TODO need to prevent leak of context object
+    //leaks a context object, but class will never be used
 
     public DownloadTask(Context context) {
         this.context = context;

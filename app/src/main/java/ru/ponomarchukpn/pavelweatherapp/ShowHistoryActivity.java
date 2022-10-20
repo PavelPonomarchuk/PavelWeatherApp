@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.ponomarchukpn.pavelweatherapp.data.WeatherDataViewModel;
+import ru.ponomarchukpn.pavelweatherapp.pojo.WeatherData;
 
 public class ShowHistoryActivity extends AppCompatActivity {
     private final ArrayList<WeatherData> weatherDataList = new ArrayList<>();

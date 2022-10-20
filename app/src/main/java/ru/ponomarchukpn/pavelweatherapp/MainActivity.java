@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import ru.ponomarchukpn.pavelweatherapp.utils.DownloadTask;
-import ru.ponomarchukpn.pavelweatherapp.utils.DownloadTaskBuilder;
+import org.json.JSONObject;
+
+import ru.ponomarchukpn.pavelweatherapp.pojo.WeatherData;
+import ru.ponomarchukpn.pavelweatherapp.utils.JSONUtils;
+import ru.ponomarchukpn.pavelweatherapp.utils.NetworkUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,9 +30,19 @@ public class MainActivity extends AppCompatActivity {
         btnShowWeather.setOnClickListener(view -> {
             String location = editTextLocation.getText().toString().trim();
             if (!location.equals("")) {
-                DownloadTask task = new DownloadTask(MainActivity.this);
-                DownloadTaskBuilder builder = new DownloadTaskBuilder(MainActivity.this);
-                task.execute(builder.build(location));
+                JSONObject jsonObject = NetworkUtils.getJSONFromNetwork(MainActivity.this, location);
+                if (jsonObject != null) {
+                    WeatherData data = JSONUtils.getWeatherDataFromJSON(jsonObject);
+                    Intent intent = new Intent(MainActivity.this, ShowWeatherActivity.class);
+                    intent.putExtra("location", data.getLocation());
+                    intent.putExtra("date", data.getDate());
+                    intent.putExtra("temperature", data.getTemperature());
+                    intent.putExtra("windSpeed", data.getWindSpeed());
+                    intent.putExtra("description", data.getDescription());
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(MainActivity.this, R.string.error_while_getting_data, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

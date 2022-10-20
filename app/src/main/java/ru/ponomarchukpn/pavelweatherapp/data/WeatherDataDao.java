@@ -8,7 +8,7 @@ import androidx.room.Query;
 
 import java.util.List;
 
-import ru.ponomarchukpn.pavelweatherapp.WeatherData;
+import ru.ponomarchukpn.pavelweatherapp.pojo.WeatherData;
 
 @Dao
 public interface WeatherDataDao {

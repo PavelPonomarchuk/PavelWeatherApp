@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,12 +14,16 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.ponomarchukpn.pavelweatherapp.utils.DownloadTask;
-import ru.ponomarchukpn.pavelweatherapp.utils.DownloadTaskBuilder;
 import ru.ponomarchukpn.pavelweatherapp.data.LocationsViewModel;
+import ru.ponomarchukpn.pavelweatherapp.pojo.Location;
+import ru.ponomarchukpn.pavelweatherapp.pojo.WeatherData;
+import ru.ponomarchukpn.pavelweatherapp.utils.JSONUtils;
+import ru.ponomarchukpn.pavelweatherapp.utils.NetworkUtils;
 
 public class ShowLocationsActivity extends AppCompatActivity {
 
@@ -42,9 +47,19 @@ public class ShowLocationsActivity extends AppCompatActivity {
         adapter.setOnLocationClickListener(position -> {
             String location = locations.get(position).getName();
             if (!location.equals("")) {
-                DownloadTask task = new DownloadTask(ShowLocationsActivity.this);
-                DownloadTaskBuilder builder = new DownloadTaskBuilder(ShowLocationsActivity.this);
-                task.execute(builder.build(location));
+                JSONObject jsonObject = NetworkUtils.getJSONFromNetwork(ShowLocationsActivity.this, location);
+                if (jsonObject != null) {
+                    WeatherData data = JSONUtils.getWeatherDataFromJSON(jsonObject);
+                    Intent intent = new Intent(ShowLocationsActivity.this, ShowWeatherActivity.class);
+                    intent.putExtra("location", data.getLocation());
+                    intent.putExtra("date", data.getDate());
+                    intent.putExtra("temperature", data.getTemperature());
+                    intent.putExtra("windSpeed", data.getWindSpeed());
+                    intent.putExtra("description", data.getDescription());
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(ShowLocationsActivity.this, R.string.error_while_getting_data, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

@@ -1,4 +1,4 @@
-package ru.ponomarchukpn.pavelweatherapp;
+package ru.ponomarchukpn.pavelweatherapp.pojo;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;

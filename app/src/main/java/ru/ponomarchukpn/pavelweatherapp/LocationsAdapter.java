@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import ru.ponomarchukpn.pavelweatherapp.pojo.Location;
+
 public class LocationsAdapter extends RecyclerView.Adapter<LocationsAdapter.LocationsViewHolder> {
     private final ArrayList<Location> locations;
     private OnLocationClickListener onLocationClickListener;

@@ -9,8 +9,7 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-import ru.ponomarchukpn.pavelweatherapp.WeatherData;
-import ru.ponomarchukpn.pavelweatherapp.data.WeatherDataDatabase;
+import ru.ponomarchukpn.pavelweatherapp.pojo.WeatherData;
 
 public class WeatherDataViewModel extends AndroidViewModel {
     private static WeatherDataDatabase database;
