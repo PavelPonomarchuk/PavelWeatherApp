@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.ponomarchukpn.pavelweatherapp.adapters.WeatherDataAdapter;
 import ru.ponomarchukpn.pavelweatherapp.data.WeatherDataViewModel;
 import ru.ponomarchukpn.pavelweatherapp.pojo.WeatherData;
 

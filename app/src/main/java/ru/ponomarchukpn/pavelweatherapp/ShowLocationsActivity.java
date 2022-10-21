@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.ponomarchukpn.pavelweatherapp.adapters.LocationsAdapter;
 import ru.ponomarchukpn.pavelweatherapp.data.LocationsViewModel;
 import ru.ponomarchukpn.pavelweatherapp.pojo.Location;
 import ru.ponomarchukpn.pavelweatherapp.pojo.WeatherData;

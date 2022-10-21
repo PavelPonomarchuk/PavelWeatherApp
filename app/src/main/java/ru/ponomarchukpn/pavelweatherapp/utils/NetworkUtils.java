@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutionException;
 import ru.ponomarchukpn.pavelweatherapp.R;
 
 public class NetworkUtils {
-    private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/weather?";
+    private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
 
     private static final String PARAM_LOCATION = "q";
     private static final String PARAM_API_KEY = "appid";

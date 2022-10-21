@@ -1,4 +1,4 @@
-package ru.ponomarchukpn.pavelweatherapp;
+package ru.ponomarchukpn.pavelweatherapp.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import ru.ponomarchukpn.pavelweatherapp.R;
 import ru.ponomarchukpn.pavelweatherapp.pojo.WeatherData;
 
 public class WeatherDataAdapter extends RecyclerView.Adapter<WeatherDataAdapter.HistoryViewHolder> {
